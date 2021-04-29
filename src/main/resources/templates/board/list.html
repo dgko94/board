@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('게시판')">
+
+</head>
+<style>
+  .center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pull-right {
+  float: right !important;
+}
+</style>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+    function selChange(){
+        val sel = document.getElementById('cntPerPage').value;
+        location.href="board/list?nowPage=${paging.nowPage}&cntPerPage="+sel;
+    }
+    function writing(){
+      location.href="'/board/writing'";
+    }
+</script>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
+
+</nav>
+    <div class="starter-template">
+      <table class="table table-hover" style="table-layout: fixed">
+        <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">제목</th>
+          <th scope="col">글쓴이</th>
+          <th scope="col">작성일</th>
+          <th scope="col">조회</th>
+          <th scope="col">추천</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${boards}">
+          <td th:text="${board.id+1}">1</td>
+          <td><a th:href="@{'/board/detail/'+${board.id}}" th:text="${board.title}"> 환영합니다.</a></td>
+          <td th:text="${board.userId}">강바람</td>
+          <td th:text="${board.updateDate}">2021.04.22</td>
+          <td th:text="${board.count}">12</td>
+          <td th:text="${board.recommend}">1</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="center-block">
+      <form action="keyword" method="post" class="form-inline">
+              <input type="text" class="form-control" placeholder="Search for..." name="keyword">&nbsp
+              <span>
+                  <button class="btn btn-info" type="submit">Go!</button>&nbsp
+              </span>
+              <div th:if="${session.user}!=null">
+                <button formaction="/board/writing" formmethod="get" class="btn btn-info">글쓰기</button>
+              </div>
+      </form>
+      </div>
+    </div>
+
+
+    <br>
+    <nav aria-label="Page navigation example" class="nav justify-content-center">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" th:href="@{/board/list?page=1}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" th:href="@{/board/list?page={page}(page = ${pagination.prevBlock})}" aria-label="Previous">
+            <span aria-hidden="true">&lt;</span>
+          </a>
+        </li>
+        <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+          <li class="page-item"
+              th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+              th:each="pageButton : ${#numbers.sequence(start, end)}">
+            <a class="page-link" th:href="@{/board/list?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
+          </li>
+        </th:block>
+        <li class="page-item">
+          <a class="page-link" th:href="@{/board/list?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+            <span aria-hidden="true">&gt;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" th:href="@{/board/list?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+</body>
+</html>

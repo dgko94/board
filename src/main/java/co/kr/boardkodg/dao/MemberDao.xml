@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="co.kr.boardkodg.dao.MemberDao">
+
+    <insert id="join" useGeneratedKeys="true" keyProperty ="id">
+        INSERT INTO `member`
+        SET regDate = NOW(),
+        updateDate = NOW(),
+        userId = #{userId},
+        userPw = #{userPw},
+        userPw_confirm = #{userPw_confirm},
+        `name` = #{name},
+        nickname = #{nickname},
+        cellphoneNo = #{cellphoneNo},
+        email = #{email},
+        authority = #{authority}
+    </insert>
+
+    <select id="findByUserId" resultType="Member">
+        select * from `member`
+        where 1
+        and userId = #{userId}
+    </select>
+
+    <select id="memberLogin" resultType="Member">
+        select * from `member`
+        where 1
+        and userId = #{userId}
+        and userPw = #{userPw}
+    </select>
+
+</mapper>

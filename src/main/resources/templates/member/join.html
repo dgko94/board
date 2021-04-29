@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('회원가입')">
+
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+  function userCheck() {
+
+    var getUserId=$("#userId").val();
+
+    var Member={
+        userId:getUserId
+    };
+
+    $.ajax({
+        url: "userCheck",
+        data: Member,
+        type:"POST",
+    }).done(function (fragment) {
+        $("#userIdDiv").replaceWith(fragment);
+    });
+}
+</script>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('createmember')">
+</nav>
+
+<form action="/join" method="post" class="form-inline">
+    <div id=userIdDiv>
+        <div class="form-group">
+            <label for="userId">아이디</label>&nbsp
+            <input type="text" placeholder="아이디" name="userId" id="userId" th:value="${userId}" class="form-control">&nbsp
+            <input type="button" class="btn btn-primary" onclick="userCheck()" value="중복확인">&nbsp&nbsp
+            <span>
+                <p th:if="${msg}=='사용가능 한 아이디입니다.'" th:text="${msg}" class="text-success"></p>
+                <p th:unless="${msg}=='사용가능 한 아이디입니다.'" th:text="${msg}" class="text-danger"><input type="hidden" name="check" value="success"></p>
+            </span>
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="userPw">비밀번호</label>&nbsp
+            <input type="password" placeholder="비밀번호" name="userPw" id="userPw" class="form-control" th:classappend="${danger} == '비밀번호가 일치하지않습니다.' ? 'is-invalid'" >
+            <div class="invalid-feedback">
+                비밀번호가 맞지않습니다.
+            </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="userPw_confirm">비밀번호 확인</label>&nbsp
+            <input type="password" placeholder="비밀번호 확인" name="userPw_confirm" id="userPw_confirm" class="form-control">
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="name">이름</label>&nbsp
+            <input type="text" placeholder="이름" name="name" id="name" class="form-control">
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="nickname">닉네임</label>&nbsp
+            <input type="text" placeholder="닉네임" name="nickname" id="nickname" class="form-control">
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="cellphoneNo">전화번호</label>&nbsp
+            <input type="text" placeholder="전화번호" name="cellphoneNo" id="cellphoneNo" class="form-control">
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="email">메일</label>&nbsp
+            <input type="email" placeholder="메일" name="email" id="email" class="form-control">
+        </div>
+
+        <br>
+        <input type="hidden" name="authority" id="authority" value="2">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">확인</button>
+        </div>
+    </div>
+</form>
+
+</body>
+
+</html>

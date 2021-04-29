@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('회원가입')">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('createmember')">
+</nav>
+    <p>어서오세요</p>
+    <ul>
+        <li><a href="/login">로그인</a></li>
+        <li><a href="/join">회원가입</a></li>
+    </ul>
+</body>
+</html>
